@@ -10,8 +10,5 @@ Modules:
     implementations for handling different endpoints, request parsing, and response formatting.
 """
 
-# This is the initialization file for the API package.
-# Add any necessary initializations or imports for the API layer here.
 
-# Example placeholder for future import
-# from .routes import app
+from .routes import app

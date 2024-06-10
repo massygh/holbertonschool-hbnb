@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 
 # Create a Blueprint for the API
-app = Blueprint('app', _name_)
+app = Blueprint('app', __name__)  # Correction: __name__ au lieu de _name_
 
 @app.route('/')
 def index():
