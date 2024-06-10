@@ -4,16 +4,16 @@ Welcome to the HBnB Evolution Project. This is the first part of our journey in 
 
 # table of contents
 
-* Project Overview
-* Technoogies Used
-* Setup and Installation
-* Usage
-* Project Structure
-* Data Model
-* API Endpoints
-* Testing
-* Docker Packaging
-* Authors
+- [Project Overview](#project-overview)
+- [Technoogies Used](#technologies-used)
+- [Setup and Installation](#setup-and-installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Data Model](#data-model)
+- [API Endpoints](api-endpoints)
+- [Testing](#testing)
+- [Docker Packaging](#docker-packaging)
+- [Authors](#authors)
 
 # Project Overview
 
@@ -35,7 +35,7 @@ Welcome to the HBnB Evolution Project. This is the first part of our journey in 
 * **Business Logic Layer**: Processes and makes decisions based on the business rules.
 * **Persistence Layer**: Manages data storage, initially using a file-based system.
 
-#techniologies Used
+# techniologies Used
 
 * **Python**: Programming language.
 * **FlasK**: Web framework for building the API
@@ -44,7 +44,7 @@ Welcome to the HBnB Evolution Project. This is the first part of our journey in 
 * **uuid**: Python module for generating UUID4.
 * **datetime**: Python module for handling timestamps.
 
-#Setup and Installation
+# Setup and Installation
 ## prerequisites
 
 * Python 3.x
@@ -96,6 +96,7 @@ HBnB_evolution/
 |__ requirements.txt
 |__ README.md
 ```
+**c'est ce que j'ai compris faut qu'on vois ca ensemble**
 
 # Data Model
 ## Key entities
