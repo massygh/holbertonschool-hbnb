@@ -84,4 +84,28 @@ Attributes:
     name (str): Name of the amenity.
     description (str): Description of the amenity.
     created_at (datetime): Timestamp of when the amenity was created.
-    updated_at (datetime): Timestamp of wh
+    updated_at (datetime): Timestamp of when the amenity was last updated.
+"""
+
+City.__doc__ = """
+City Class
+
+Represents a city where places can be located in the HBnB application.
+
+Attributes:
+    id (UUID4): Unique identifier for the city.
+    name (str): Name of the city.
+    country_id (UUID4): Identifier of the country where the city is located.
+    created_at (datetime): Timestamp of when the city was created.
+    updated_at (datetime): Timestamp of when the city was last updated.
+"""
+
+Country.__doc__ = """
+Country Class
+
+Represents a country where cities can be located in the HBnB application.
+
+Attributes:
+    id (UUID4): Unique identifier for the country.
+    name (str): Name of the country.
+"""
