@@ -6,9 +6,16 @@ The API package handles the interaction between the client and the server, proce
 requests and returning responses.
 
 Modules:
-    Currently, there are no specific modules defined for the API. Future modules could include
-    implementations for handling different endpoints, request parsing, and response formatting.
+    routes: Contains the general route definitions for the API.
+    user_api: Contains the user-related route definitions for the API.
 """
 
+from flask import Blueprint
 
-from .routes import app
+# Create a Blueprint for the general API
+app = Blueprint('app', __name__)
+
+# Route to check if API is working
+@app.route('/')
+def index():
+    return {"message": "Welcome to the HBnB API!"}

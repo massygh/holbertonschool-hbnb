@@ -1,12 +1,14 @@
 import unittest
 import json
 from flask import Flask
-from api import app as api_app
+from api.routes import app as general_app
+from api.user_api import user_app
 
 class UserApiTestCase(unittest.TestCase):
     def setUp(self):
         self.app = Flask(__name__)
-        self.app.register_blueprint(api_app)
+        self.app.register_blueprint(general_app)
+        self.app.register_blueprint(user_app, url_prefix='/api/v1')
         self.client = self.app.test_client()
 
     def test_create_user(self):
