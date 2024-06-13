@@ -18,4 +18,4 @@ app.register_blueprint(user_app, url_prefix='/api/v1')
 
 # Run the Flask application
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5002, debug=True)
