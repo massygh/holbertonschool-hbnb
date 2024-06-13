@@ -6,6 +6,6 @@ app = Blueprint('app', __name__)
 # Route pour vérifier si l'API fonctionne
 @app.route('/')
 def index():
-    return jsonify({"message": "Welcome ines kifesh?!"})
+    return jsonify({"Welcome to the HBnB API!"})
 
 # Vous pouvez ajouter d'autres routes générales ici si nécessaire
