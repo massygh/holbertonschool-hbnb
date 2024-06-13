@@ -1,5 +1,7 @@
 from persistence.IPersistenceManager import IPersistenceManager
 from models.user import User
+from models.city import City
+from models.country import Country
 import uuid
 from datetime import datetime
 
@@ -13,11 +15,27 @@ class DataManager(IPersistenceManager):
             'City': {},
             'Country': {}
         }
+        self.preload_countries()
+
+    def preload_countries(self):
+        # This would typically load from a JSON file or a database
+        countries = [
+            {"code": "US", "name": "United States"},
+            {"code": "CA", "name": "Canada"},
+            {"code": "FR", "name": "France"},
+            # Add more countries as needed
+        ]
+        for country in countries:
+            self.storage['Country'][country['code']] = Country(country['code'], country['name'])
 
     def save(self, entity):
         entity_type = type(entity).__name__
         if entity_type == 'User' and not User.is_email_unique(entity.email, self.storage['User'].values()):
             return False  # email is not unique
+
+        if isinstance(entity, City):
+            if not self.get(entity.country_code, 'Country'):
+                return False  # invalid country code
 
         entity.id = uuid.uuid4()
         entity.created_at = datetime.now()
