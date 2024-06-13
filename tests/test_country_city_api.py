@@ -29,4 +29,9 @@ class CountryCityApiTestCase(unittest.TestCase):
         response = self.client.post('/api/v1/cities', data=json.dumps({
             'name': 'New York',
             'country_code': 'US'
-        }),
+        }), content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        self.assertIn('id', json.loads(response.data))
+
+if __name__ == '__main__':
+    unittest.main()
