@@ -8,15 +8,15 @@ from datetime import datetime
 class Review:
     """Class representing a review."""
 
-    def __init__(self, user_id, place_id, rating, comment):
+    def __init__(self, user_id, place_id, rating, comment, review_id=None, created_at=None, updated_at=None):
         # Generate a UUID4 for unique identification
-        self.review_id = str(uuid.uuid4())
+        self.review_id = review_id if review_id is not None else str(uuid.uuid4())
         self.user_id = user_id
         self.place_id = place_id
         self.rating = rating
         self.comment = comment
-        self.created_at = datetime.now()  # Record creation timestamp
-        self.updated_at = datetime.now()  # Record update timestamp
+        self.created_at = created_at if created_at is not None else datetime.now()
+        self.updated_at = updated_at if updated_at is not None else datetime.now()
 
     def to_dict(self):
         """Returns the review data as a dictionary."""
@@ -26,8 +26,6 @@ class Review:
             'place_id': self.place_id,
             'rating': self.rating,
             'comment': self.comment,
-            # Convert datetime to ISO 8601 format
             'created_at': self.created_at.isoformat(),
-            # Convert datetime to ISO 8601 format
             'updated_at': self.updated_at.isoformat()
         }

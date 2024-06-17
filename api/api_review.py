@@ -4,6 +4,7 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from data_manager import DataManager
+from model.review import Review
 import uuid
 from datetime import datetime
 
@@ -12,15 +13,15 @@ data_manager = DataManager()
 
 # Model definition for a Review
 review_model = ns.model('Review', {
-    'id': fields.String(
+    'review_id': fields.String(
         required=True,
         description='Review ID'
     ),
-    'user_id': fields.Integer(
+    'user_id': fields.String(
         required=True,
         description='User ID'
     ),
-    'place_id': fields.Integer(
+    'place_id': fields.String(
         required=True,
         description='Place ID'
     ),
@@ -55,7 +56,7 @@ class Reviews(Resource):
     def post(self):
         """Create a new review."""
         new_review_data = request.json
-        new_review_data['id'] = str(uuid.uuid4())
+        new_review_data['review_id'] = str(uuid.uuid4())
         new_review_data['created_at'] = datetime.now()
         new_review_data['updated_at'] = datetime.now()
         review_id = data_manager.save_review(new_review_data)
@@ -93,7 +94,7 @@ class ReviewResource(Resource):
     def put(self, review_id):
         """Update an existing review."""
         new_review_data = request.json
-        new_review_data['id'] = review_id
+        new_review_data['review_id'] = review_id
         new_review_data['updated_at'] = datetime.now()
         if data_manager.update_review(review_id, new_review_data):
             return '', 204
