@@ -4,15 +4,16 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from data_manager import DataManager
-import uuid
+from model.amenity import Amenity
 from datetime import datetime
+import uuid
 
 ns = Namespace('amenities', description='Operations related to amenities')
 data_manager = DataManager()
 
-"""Model definition for an Amenity"""
+# Model definition for an Amenity
 amenity_model = ns.model('Amenity', {
-    'id': fields.String(
+    'amenity_id': fields.String(
         required=True,
         description='Amenity ID'
     ),
@@ -30,7 +31,6 @@ amenity_model = ns.model('Amenity', {
     )
 })
 
-
 @ns.route('/')
 class Amenities(Resource):
     @ns.marshal_list_with(amenity_model)
@@ -44,7 +44,7 @@ class Amenities(Resource):
     def post(self):
         """Create a new amenity."""
         new_amenity_data = request.json
-        new_amenity_data['id'] = str(uuid.uuid4())
+        new_amenity_data['amenity_id'] = str(uuid.uuid4())
         new_amenity_data['created_at'] = datetime.now()
         new_amenity_data['updated_at'] = datetime.now()
         amenity_id = data_manager.save_amenity(new_amenity_data)
@@ -52,7 +52,6 @@ class Amenities(Resource):
             'message': 'Amenity created successfully',
             'amenity_id': amenity_id
         }, 201
-
 
 @ns.route('/<string:amenity_id>')
 class AmenityResource(Resource):
@@ -82,7 +81,7 @@ class AmenityResource(Resource):
     def put(self, amenity_id):
         """Update an existing amenity."""
         new_amenity_data = request.json
-        new_amenity_data['id'] = amenity_id
+        new_amenity_data['amenity_id'] = amenity_id
         new_amenity_data['updated_at'] = datetime.now()
         if data_manager.update_amenity(amenity_id, new_amenity_data):
             return '', 204
