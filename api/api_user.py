@@ -12,7 +12,7 @@ data_manager = DataManager()
 
 # Model definition for a User
 user_model = ns.model('User', {
-    'id': fields.String(
+    'user_id': fields.String(
         required=True,
         description='User ID'
     ),
@@ -52,7 +52,7 @@ class Users(Resource):
     def post(self):
         """Create a new user."""
         new_user_data = request.json
-        new_user_data['id'] = str(uuid.uuid4())
+        new_user_data['user_id'] = str(uuid.uuid4())
         new_user_data['created_at'] = datetime.now()
         new_user_data['updated_at'] = datetime.now()
         user_id = data_manager.save_user(new_user_data)
@@ -90,7 +90,7 @@ class UserResource(Resource):
     def put(self, user_id):
         """Update an existing user."""
         new_user_data = request.json
-        new_user_data['id'] = user_id
+        new_user_data['user_id'] = user_id
         new_user_data['updated_at'] = datetime.now()
         if data_manager.update_user(user_id, new_user_data):
             return '', 204
