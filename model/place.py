@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """Model for representing places."""
 
+import uuid
+from datetime import datetime
 
 class Place:
     """Class representing a place."""
@@ -8,9 +10,9 @@ class Place:
     def __init__(
         self, name, description, address, city_id, latitude, longitude,
         host_id, number_of_rooms, number_of_bathrooms, price_per_night,
-        max_guests, amenity_ids
+        max_guests, amenity_ids, place_id=None, created_at=None, updated_at=None
     ):
-        self.place_id = None
+        self.place_id = place_id if place_id is not None else str(uuid.uuid4())
         self.name = name
         self.description = description
         self.address = address
@@ -23,6 +25,8 @@ class Place:
         self.price_per_night = price_per_night
         self.max_guests = max_guests
         self.amenity_ids = amenity_ids
+        self.created_at = created_at if created_at is not None else datetime.now()
+        self.updated_at = updated_at if updated_at is not None else datetime.now()
         self.reviews = []
 
     def add_review(self, review):
@@ -104,5 +108,7 @@ class Place:
             'price_per_night': self.price_per_night,
             'max_guests': self.max_guests,
             'amenity_ids': self.amenity_ids,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat(),
             'reviews': self.reviews
         }

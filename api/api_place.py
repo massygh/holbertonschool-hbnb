@@ -1,11 +1,12 @@
 #!/usr/bin/python3
-# NS for managing places
+# API for managing places
 
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from data_manager import DataManager
-import uuid
+from model.place import Place
 from datetime import datetime
+import uuid
 
 ns = Namespace('places', description='Operations related to places')
 data_manager = DataManager()
@@ -26,7 +27,7 @@ place_model = ns.model('Place', {
     'address': fields.String(
         description='Place address'
     ),
-    'city_id': fields.Integer(
+    'city_id': fields.String(
         description='City ID'
     ),
     'latitude': fields.Float(
@@ -35,7 +36,7 @@ place_model = ns.model('Place', {
     'longitude': fields.Float(
         description='Longitude'
     ),
-    'host_id': fields.Integer(
+    'host_id': fields.String(
         description='Host ID'
     ),
     'number_of_rooms': fields.Integer(

@@ -26,7 +26,23 @@ class DataManager:
 
     # Methods for Place
     def save_place(self, place_data):
-        place = Place(**place_data)
+        place = Place(
+            place_data['name'],
+            place_data.get('description', ''),
+            place_data.get('address', ''),
+            place_data.get('city_id', None),
+            place_data.get('latitude', None),
+            place_data.get('longitude', None),
+            place_data.get('host_id', None),
+            place_data.get('number_of_rooms', 0),
+            place_data.get('number_of_bathrooms', 0),
+            place_data.get('price_per_night', 0.0),
+            place_data.get('max_guests', 0),
+            place_data.get('amenity_ids', []),
+            place_id=place_data['id'],
+            created_at=place_data['created_at'],
+            updated_at=place_data['updated_at']
+        )
         self.place_repository.save(place)
         return place.place_id
 
@@ -34,7 +50,12 @@ class DataManager:
         return self.place_repository.get(place_id)
 
     def update_place(self, place_id, new_data):
-        return self.place_repository.update(place_id, new_data)
+        place = self.place_repository.get(place_id)
+        if place:
+            place.update_place_data(new_data)
+            self.place_repository.update(place_id, place.to_dict())
+            return True
+        return False
 
     def delete_place(self, place_id):
         return self.place_repository.delete(place_id)
