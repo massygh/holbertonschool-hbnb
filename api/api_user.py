@@ -1,21 +1,16 @@
-# Import nécessaire pour Flask et Flask-RestX
+#!/usr/bin/python3
+# API for managing users
+
 from flask import request
 from flask_restx import Namespace, Resource, fields
-
-# Import du DataManager
 from data_manager import DataManager
-
-# UUID et DateTime nécessaire pour l'attribut User
 import uuid
 from datetime import datetime
 
-# Création d'un namespace pour la gestion des utilisateurs
 ns = Namespace('users', description='Operations related to users')
-
-# Création d'un DataManager pour le CRUD des utilisateurs
 data_manager = DataManager()
 
-# Définition du modèle pour un User
+# Model definition for a User
 user_model = ns.model('User', {
     'id': fields.String(
         required=True,
@@ -43,7 +38,7 @@ user_model = ns.model('User', {
     )
 })
 
-# Définition des routes pour le endpoint /users/
+
 @ns.route('/')
 class Users(Resource):
     @ns.marshal_list_with(user_model)
@@ -57,27 +52,16 @@ class Users(Resource):
     def post(self):
         """Create a new user."""
         new_user_data = request.json
-        
-        # Vérifiez que les champs nécessaires sont présents dans la requête JSON
-        if 'username' not in new_user_data or 'email' not in new_user_data or 'password' not in new_user_data:
-            return {'message': 'Missing required fields'}, 400
-
-        # Ajoutez les champs manquants (id, created_at, updated_at)
         new_user_data['id'] = str(uuid.uuid4())
         new_user_data['created_at'] = datetime.now()
         new_user_data['updated_at'] = datetime.now()
+        user_id = data_manager.save_user(new_user_data)
+        return {
+            'message': 'User created successfully',
+            'user_id': user_id
+        }, 201
 
-        # Essayez de sauvegarder le nouvel utilisateur avec DataManager
-        try:
-            user_id = data_manager.save_user(new_user_data)
-            return {
-                'message': 'User created successfully',
-                'user_id': user_id
-            }, 201
-        except ValueError as e:
-            return {'message': str(e)}, 400
 
-# Définition des routes pour le endpoint /users/<user_id>
 @ns.route('/<string:user_id>')
 class UserResource(Resource):
     @ns.marshal_with(user_model)
