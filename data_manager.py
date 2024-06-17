@@ -39,7 +39,7 @@ class DataManager:
             place_data.get('price_per_night', 0.0),
             place_data.get('max_guests', 0),
             place_data.get('amenity_ids', []),
-            place_id=place_data['id'],
+            place_id=place_data['place_id'],
             created_at=place_data['created_at'],
             updated_at=place_data['updated_at']
         )

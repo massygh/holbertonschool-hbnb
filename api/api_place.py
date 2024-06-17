@@ -79,7 +79,7 @@ class Places(Resource):
     def post(self):
         """Create a new place."""
         new_place_data = request.json
-        new_place_data['id'] = str(uuid.uuid4())
+        new_place_data['place_id'] = str(uuid.uuid4())
         new_place_data['created_at'] = datetime.now()
         new_place_data['updated_at'] = datetime.now()
         place_id = data_manager.save_place(new_place_data)
@@ -117,7 +117,7 @@ class PlaceResource(Resource):
     def put(self, place_id):
         """Update an existing place."""
         new_place_data = request.json
-        new_place_data['id'] = place_id
+        new_place_data['place_id'] = place_id
         new_place_data['updated_at'] = datetime.now()
         if data_manager.update_place(place_id, new_place_data):
             return '', 204
