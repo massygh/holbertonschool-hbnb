@@ -126,7 +126,7 @@ class DataManager:
 
     # Methods for City
     def save_city(self, city_data):
-        city = City(**city_data)
+        city = City(city_data['name'], city_data['country_id'])
         self.city_repository.save(city)
         return city.city_id
 
@@ -134,7 +134,12 @@ class DataManager:
         return self.city_repository.get(city_id)
 
     def update_city(self, city_id, new_data):
-        return self.city_repository.update(city_id, new_data)
+        city = self.city_repository.get(city_id)
+        if city:
+            city.update_user_data(new_data)
+            self.city_repository.update(city_id, city.to_dict())
+            return True
+        return False
 
     def delete_city(self, city_id):
         return self.city_repository.delete(city_id)

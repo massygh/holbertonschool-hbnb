@@ -4,7 +4,7 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from data_manager import DataManager
-import uuid
+from model.city import City
 from datetime import datetime
 
 ns = Namespace('cities', description='Operations related to cities')
@@ -12,9 +12,18 @@ data_manager = DataManager()
 
 # Model definition for a City
 city_model = ns.model('City', {
-    'id': fields.String(required=True, description='City ID'),
-    'name': fields.String(required=True, description='City name'),
-    'country_id': fields.Integer(required=True, description='Country ID'),
+    'city_id': fields.String(
+        required=True,
+        description='City ID'
+    ),
+    'name': fields.String(
+        required=True,
+        description='City name'
+    ),
+    'country_id': fields.String(
+        required=True,
+        description='Country ID'
+    ),
     'created_at': fields.DateTime(
         required=True,
         description='Date and time when the city was created'
@@ -39,13 +48,11 @@ class Cities(Resource):
     def post(self):
         """Create a new city."""
         new_city_data = request.json
-        new_city_data['id'] = str(uuid.uuid4())
-        new_city_data['created_at'] = datetime.now()
-        new_city_data['updated_at'] = datetime.now()
-        city_id = data_manager.save_city(new_city_data)
+        city = City(new_city_data['name'], new_city_data['country_id'])
+        data_manager.save_city(city.to_dict())
         return {
             'message': 'City created successfully',
-            'city_id': city_id
+            'city_id': city.city_id
         }, 201
 
 
@@ -77,8 +84,8 @@ class CityResource(Resource):
     def put(self, city_id):
         """Update an existing city."""
         new_city_data = request.json
-        new_city_data['id'] = city_id
-        new_city_data['updated_at'] = datetime.now()
+        new_city_data['city_id'] = city_id
+        new_city_data['updated_at'] = datetime.now().isoformat()
         if data_manager.update_city(city_id, new_city_data):
             return '', 204
         else:
