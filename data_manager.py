@@ -44,7 +44,7 @@ class DataManager:
 
     # Methods for User
     def save_user(self, user_data):
-        user = User(**user_data)
+        user = User(user_data['username'], user_data['email'], user_data['password'])
         self.user_repository.save(user)
         return user.user_id
 
@@ -52,7 +52,12 @@ class DataManager:
         return self.user_repository.get(user_id)
 
     def update_user(self, user_id, new_data):
-        return self.user_repository.update(user_id, new_data)
+        user = self.user_repository.get(user_id)
+        if user:
+            user.update_user_data(new_data)
+            self.user_repository.update(user_id, user.to_dict())
+            return True
+        return False
 
     def delete_user(self, user_id):
         return self.user_repository.delete(user_id)

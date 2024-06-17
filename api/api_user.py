@@ -52,9 +52,6 @@ class Users(Resource):
     def post(self):
         """Create a new user."""
         new_user_data = request.json
-        new_user_data['user_id'] = str(uuid.uuid4())
-        new_user_data['created_at'] = datetime.now()
-        new_user_data['updated_at'] = datetime.now()
         user_id = data_manager.save_user(new_user_data)
         return {
             'message': 'User created successfully',
