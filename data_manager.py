@@ -103,7 +103,7 @@ class DataManager:
 
     # Methods for Country
     def save_country(self, country_data):
-        country = Country(**country_data)
+        country = Country(country_data['name'])
         self.country_repository.save(country)
         return country.country_id
 
@@ -111,7 +111,12 @@ class DataManager:
         return self.country_repository.get(country_id)
 
     def update_country(self, country_id, new_data):
-        return self.country_repository.update(country_id, new_data)
+        country = self.country_repository.get(country_id)
+        if country:
+            country.update_user_data(new_data)
+            self.country_repository.update(country_id, country.to_dict())
+            return True
+        return False
 
     def delete_country(self, country_id):
         return self.country_repository.delete(country_id)

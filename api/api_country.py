@@ -4,7 +4,7 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
 from data_manager import DataManager
-import uuid
+from model.country import Country
 from datetime import datetime
 
 ns = Namespace('countries', description='Operations related to countries')
@@ -12,7 +12,7 @@ data_manager = DataManager()
 
 # Model definition for a Country
 country_model = ns.model('Country', {
-    'id': fields.String(
+    'country_id': fields.String(
         required=True,
         description='Country ID'
     ),
@@ -44,13 +44,11 @@ class Countries(Resource):
     def post(self):
         """Create a new country."""
         new_country_data = request.json
-        new_country_data['id'] = str(uuid.uuid4())
-        new_country_data['created_at'] = datetime.now()
-        new_country_data['updated_at'] = datetime.now()
-        country_id = data_manager.save_country(new_country_data)
+        country = Country(new_country_data['name'])
+        data_manager.save_country(country.to_dict())
         return {
             'message': 'Country created successfully',
-            'country_id': country_id
+            'country_id': country.country_id
         }, 201
 
 
@@ -82,8 +80,8 @@ class CountryResource(Resource):
     def put(self, country_id):
         """Update an existing country."""
         new_country_data = request.json
-        new_country_data['id'] = country_id
-        new_country_data['updated_at'] = datetime.now()
+        new_country_data['country_id'] = country_id
+        new_country_data['updated_at'] = datetime.now().isoformat()
         if data_manager.update_country(country_id, new_country_data):
             return '', 204
         else:
