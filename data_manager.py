@@ -62,6 +62,7 @@ class DataManager:
 
     def get_all_places(self):
         return self.place_repository.get_all()
+        
 
     # Methods for User
     def save_user(self, user_data):
