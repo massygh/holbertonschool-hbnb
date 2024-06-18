@@ -13,7 +13,7 @@ data_manager = DataManager()
 
 # Model definition for a Place
 place_model = ns.model('Place', {
-    'id': fields.String(
+    'place_id': fields.String(
         required=True,
         description='Place ID'
     ),
@@ -65,7 +65,6 @@ place_model = ns.model('Place', {
     )
 })
 
-
 @ns.route('/')
 class Places(Resource):
     @ns.marshal_list_with(place_model)
@@ -87,7 +86,6 @@ class Places(Resource):
             'message': 'Place created successfully',
             'place_id': place_id
         }, 201
-
 
 @ns.route('/<string:place_id>')
 class PlaceResource(Resource):
